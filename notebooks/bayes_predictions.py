@@ -106,12 +106,6 @@ class BayesPredictions:
         """
         Compute the posterior probability.
 
-        Args:
-            * showcases: a one dimensional array with the historical data about showcases.
-            * initial_bid: an int that represents the initial guess of the player.
-            * diff_std: a float that represents the standard deviation of the historical errors
-            when player1 guesses.
-
         Returns: a 1041x1 array with the posterior probability.
 
         """
@@ -125,8 +119,8 @@ class BayesPredictions:
         Compute the probability of winning depending on your opponent performance.
 
         Args:
-            * pr: a price_range array with 1401 values representing how off you get from the real
-            price.
+            * off_range: a price_range array with 1401 values representing how off you get from the
+             real price.
 
         Returns: a 1401x1 array with the probability of winning for each price in the price_range.
         """
@@ -238,7 +232,8 @@ class BayesPredictions:
 
         self.outcomes.iloc[index, :3] = results
 
-    def print_outcome(self, results):
+    @staticmethod
+    def print_outcome(results):
         if np.random.uniform() > 9 / 10:  # print some results once in a while.
             print(50 * '*')
             p1_wins, p2_wins, no_winner = results
@@ -292,6 +287,6 @@ class MakeUpP1(BayesPredictions):
 if __name__ == '__main__':
     initial_history = 4
 
-    # Comment one of the following so it won't take very long to compute:
+    # Comment one of the following, so it won't take very long to compute:
     BayesPredictions(initial_history).run()
     MakeUpP1(initial_history=initial_history, worsen_factor=1.3).run()
