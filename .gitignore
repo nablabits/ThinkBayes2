@@ -49,9 +49,8 @@ tags
 # Rope
 .ropeproject
 
-# Django stuff:
-*.log
-*.pot
+# pycharm
+.idea
 
 # Sphinx documentation
 docs/_build/
