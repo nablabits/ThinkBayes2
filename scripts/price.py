@@ -42,7 +42,7 @@ def ReadData(filename='showcases.2011.csv'):
 
     fp.close()
     return list(zip(*res))
-    
+
 
 class Price(thinkbayes2.Suite):
     """Represents hypotheses about the price of a showcase."""
@@ -51,7 +51,7 @@ class Price(thinkbayes2.Suite):
         """Constructs the suite.
 
         pmf: prior distribution of price
-        player: Player object
+        player_score: Player object
         label: string
         """
         thinkbayes2.Suite.__init__(self, pmf, label=label)
@@ -78,7 +78,7 @@ class GainCalculator(object):
     def __init__(self, player, opponent):
         """Constructs the calculator.
 
-        player: Player
+        player_score: Player
         opponent: Player
         """
         self.player = player
@@ -92,7 +92,7 @@ class GainCalculator(object):
         n: number of bids to evaluates
 
         returns: tuple (sequence of bids, sequence of gains)
-    
+
         """
         bids = np.linspace(low, high, n)
 
@@ -137,13 +137,13 @@ class GainCalculator(object):
 
         diff: how much your bid was off by
         """
-        prob = (self.opponent.ProbOverbid() + 
+        prob = (self.opponent.ProbOverbid() +
                 self.opponent.ProbWorseThan(diff))
         return prob
 
 
 class Player(object):
-    """Represents a player on The Price is Right."""
+    """Represents a player_score on The Price is Right."""
 
     n = 101
     price_xs = np.linspace(0, 75000, n)
@@ -182,12 +182,12 @@ class Player(object):
         return self.cdf_diff
 
     def ProbOverbid(self):
-        """Returns the probability this player overbids.
+        """Returns the probability this player_score overbids.
         """
         return self.cdf_diff.Prob(-1)
 
     def ProbWorseThan(self, diff):
-        """Probability this player's diff is greater than the given diff.
+        """Probability this player_score's diff is greater than the given diff.
 
         diff: how much the oppenent is off by (always positive)
         """
@@ -198,7 +198,7 @@ class Player(object):
 
         Sets attributes prior and posterior.
 
-        guess: what the player thinks the showcase is worth        
+        guess: what the player_score thinks the showcase is worth
         """
         pmf = self.PmfPrice()
         self.prior = Price(pmf, self, label='prior')
@@ -207,8 +207,8 @@ class Player(object):
 
     def OptimalBid(self, guess, opponent):
         """Computes the bid that maximizes expected return.
-        
-        guess: what the player thinks the showcase is worth 
+
+        guess: what the player_score thinks the showcase is worth
         opponent: Player
 
         Returns: (optimal bid, expected gain)
@@ -257,9 +257,9 @@ def MakePlots(player1, player2):
     thinkplot.Clf()
     thinkplot.PrePlot(num=2)
     cdf1 = player1.CdfDiff()
-    cdf1.label = 'player 1'
+    cdf1.label = 'player_score 1'
     cdf2 = player2.CdfDiff()
-    cdf2.label = 'player 2'
+    cdf2.label = 'player_score 2'
 
     print('Player median', cdf1.Percentile(50))
     print('Player median', cdf2.Percentile(50))
@@ -275,7 +275,7 @@ def MakePlots(player1, player2):
 
 
 def MakePlayers():
-    """Reads data and makes player objects."""
+    """Reads data and makes player_score objects."""
     data = ReadData(filename='showcases.2011.csv')
     data += ReadData(filename='showcases.2012.csv')
 
@@ -353,7 +353,7 @@ def PlotOptimalBid():
         res.append((guess, mean, mle, gain, bid))
 
     guesses, means, _mles, gains, bids = zip(*res)
-    
+
     thinkplot.PrePlot(num=3)
     pyplot.plot([15000, 60000], [15000, 60000], color='gray')
     thinkplot.Plot(guesses, means, label='mean')
