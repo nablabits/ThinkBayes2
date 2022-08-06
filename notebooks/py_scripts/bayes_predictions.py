@@ -172,7 +172,7 @@ class BayesPredictions:
         self.df.loc[estimated_row, 'estimated_bid1'] = estimate
         self.df.loc[estimated_row, 'estimated_diff1'] = estimate - real_price
 
-        # and for player 2
+        # and for player_score 2
         estimate = self.estimate_winning_bid(player=2)
         estimated_row = self.df[self.df.estimated_bid2.isna()].index[0]
         real_price = self.df.loc[estimated_row, 'showcase_2']
@@ -219,12 +219,12 @@ class BayesPredictions:
         # p1 underbids by less or p2 overbids while p1 is underbidding
         elif (p1 > p2 or p2 > 0) and p1 <= 0:
             self.outcomes.loc[index, "winner"] = 1
-            print("player 1 wins!")
+            print("player_score 1 wins!")
 
         # p2 underbids by less or p1 overbids while p2 is underbidding
         elif (p2 > p1 or p1 > 0) and p2 <= 0:
             self.outcomes.loc[index, "winner"] = 2
-            print("player 2 wins!")
+            print("player_score 2 wins!")
 
         else:
             self.outcomes.loc[index, "winner"] = -1  # Error
@@ -237,8 +237,8 @@ class BayesPredictions:
         if np.random.uniform() > 9 / 10:  # print some results once in a while.
             print(50 * '*')
             p1_wins, p2_wins, no_winner = results
-            print(f"player 1 wins: {100 * p1_wins.round(3)}% of the time")
-            print(f"player 2 wins: {100 * p2_wins.round(3)}% of the time")
+            print(f"player_score 1 wins: {100 * p1_wins.round(3)}% of the time")
+            print(f"player_score 2 wins: {100 * p2_wins.round(3)}% of the time")
             print(f"No one wins: {100 * no_winner.round(3)}% of the time")
 
     def save_data_to_file(self):
@@ -268,7 +268,7 @@ class MakeUpP1(BayesPredictions):
 
     def create_base_df(self):
         """
-        Make up a df for player 1
+        Make up a df for player_score 1
 
         Player 1 is a Normal distribution centered at current real price times some worsen_factor
         (worse if it's higher than one).
