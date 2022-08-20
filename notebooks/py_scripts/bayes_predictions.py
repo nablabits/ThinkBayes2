@@ -1,6 +1,6 @@
-import pandas as pd
 import numpy as np
-from scipy.stats import norm, gaussian_kde
+import pandas as pd
+from scipy.stats import gaussian_kde, norm
 
 
 class BayesPredictions:
