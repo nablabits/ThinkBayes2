@@ -8,7 +8,7 @@ class QuantitiesOfInterest:
 
     When solving bayesian problems, one is constantly computing certain amounts, so it
     could be a good idea to display them all at once.
-    This could be thouhgt of a tailor made version of pd.describe()
+    This could be thought of a tailor made version of pd.describe()
     """
 
     def __init__(self, probability_distribution):
